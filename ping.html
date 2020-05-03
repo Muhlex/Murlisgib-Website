@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <title>JS Ping Test</title>
+  <script defer>
+
+function ping(host, port, callback) {
+  const started = new Date().getTime();
+  const http = new XMLHttpRequest();
+
+  http.timeout = 5000;
+  http.open("GET", "http://" + host + ":" + port, /*async*/true);
+  http.onreadystatechange = function () {
+    if (http.readyState == 4) {
+      const ended = new Date().getTime();
+      const milliseconds = ended - started;
+
+      if (callback != null) {
+        callback(milliseconds);
+        console.log(http.statusText)
+      }
+    }
+  };
+  try {
+    http.send(null);
+  } catch (exception) {
+    // this is expected
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  ping('play.gib.murl.is', 27065, ms => {
+    console.log(ms)
+  });
+});
+
+  </script>
+</head>
+<body>
+
+</body>
+</html>
