@@ -37,6 +37,10 @@ body {
   background-color: $colSecondary;
   font-family: 'Palanquin', 'Open Sans', Helvetica, sans-serif;
   color: $colPrimary;
+
+  @media screen and (max-width: 420px) {
+    font-size: 0.8rem;
+  }
 }
 
 header {
@@ -52,7 +56,13 @@ header {
 
 h1 {
   font-weight: bold;
-  font-size: (64 / 16 * 1rem);
+  font-size: (128 / 16 * 1em);
+}
+
+h2 {
+  font-weight: bold;
+  font-size: (64 / 16 * 1em);
+  margin-top: 1.5em;
 }
 
 p {
@@ -65,11 +75,13 @@ p {
   align-items: center;
   padding-top: 10vh;
   padding-bottom: 10vh;
+  min-height: 0;
 
   .hero__logo {
     display: block;
-    max-height: 12rem;
+    width: 12rem;
     margin-right: 8%;
+    min-width: 0;
   }
 
   .hero__text-group {
@@ -92,7 +104,7 @@ p {
   position: relative;
   width: 100%;
   padding-bottom: (9% / 16 * 100);
-  margin-top: 128px;
+  margin-top: 5vh;
   background-color: $colPrimary;
   border-radius: $borderRadius;
 
@@ -177,5 +189,32 @@ p {
   &:hover .trailer__orange,
   &:hover .trailer__banana {
     transform: translateX(0);
+  }
+}
+
+.servers {
+  margin-top: 2em;
+
+  .servers__server {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 18px 3%;
+    font-size: (24 / 16 * 1em);
+    color: $colSecondaryL1;
+    background-color: $colPrimary;
+    border-radius: $borderRadius;
+  }
+
+  .servers__server + .servers__server {
+    margin-top: 12px;
+  }
+
+  .servers__server > * {
+    //min-width: 160px;
+  }
+
+  .servers_name {
+    font-weight: bold;
   }
 }

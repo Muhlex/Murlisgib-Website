@@ -6,6 +6,12 @@ body {
   color: #26203A;
 }
 
+@media screen and (max-width: 420px) {
+  body {
+    font-size: 0.8rem;
+  }
+}
+
 header {
   background-color: #FFFFFF;
 }
@@ -19,7 +25,13 @@ header {
 
 h1 {
   font-weight: bold;
-  font-size: 4rem;
+  font-size: 8em;
+}
+
+h2 {
+  font-weight: bold;
+  font-size: 4em;
+  margin-top: 1.5em;
 }
 
 p {
@@ -38,12 +50,14 @@ p {
           align-items: center;
   padding-top: 10vh;
   padding-bottom: 10vh;
+  min-height: 0;
 }
 
 .hero .hero__logo {
   display: block;
-  max-height: 12rem;
+  width: 12rem;
   margin-right: 8%;
+  min-width: 0;
 }
 
 .hero .hero__text-group {
@@ -93,7 +107,7 @@ p {
   position: relative;
   width: 100%;
   padding-bottom: 56.25%;
-  margin-top: 128px;
+  margin-top: 5vh;
   background-color: #26203A;
   border-radius: 3px;
 }
@@ -215,5 +229,33 @@ p {
 .trailer:hover .trailer__banana {
   -webkit-transform: translateX(0);
           transform: translateX(0);
+}
+
+.servers {
+  margin-top: 2em;
+}
+
+.servers .servers__server {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  padding: 18px 3%;
+  font-size: 1.5em;
+  color: #FFFFFF;
+  background-color: #26203A;
+  border-radius: 3px;
+}
+
+.servers .servers__server + .servers__server {
+  margin-top: 12px;
+}
+
+.servers .servers_name {
+  font-weight: bold;
 }
 /*# sourceMappingURL=style.css.map */

@@ -4,9 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <title>Murlisgib</title>
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/style.css">
-  <title>Murlisgib</title>
+  <script src="./js/fetch-servers.js" defer></script>
 </head>
 
 <body>
@@ -37,38 +38,34 @@
 
     <section>
       <h2>Join a Server</h2>
-      <ul>
-        <li>
-          <div class="name">EU 1</div>
-          <div class="map">Gradient</div>
-          <div class="players">0/6</div>
-          <div class="status">Online</div>
-        </li>
-      </ul>
-      <ul>
-        <li>
-          <div class="name">EU 2</div>
-          <div class="map">Gradient</div>
-          <div class="players">0/6</div>
-          <div class="status">Online</div>
-        </li>
-      </ul>
-      <ul>
-        <li>
-          <div class="name">EU 3</div>
-          <div class="map">Gradient</div>
-          <div class="players">0/6</div>
-          <div class="status">Online</div>
-        </li>
-      </ul>
-      <ul>
-        <li>
-          <div class="name">EU 4</div>
-          <div class="map">Gradient</div>
-          <div class="players">0/6</div>
-          <div class="status">Online</div>
-        </li>
-      </ul>
+      <div class="servers">
+        <ul class="servers__cluster" data-server-cluster-index="0">
+          <li class="servers__server" data-server-index="0">
+            <div class="servers_name">EU 1</div>
+            <div class="servers_map"></div>
+            <div class="servers_players"></div>
+            <div class="servers_status">Online</div>
+          </li>
+          <li class="servers__server" data-server-index="1">
+            <div class="servers_name">EU 2</div>
+            <div class="servers_map"></div>
+            <div class="servers_players"></div>
+            <div class="servers_status">Online</div>
+          </li>
+          <li class="servers__server" data-server-index="2">
+            <div class="servers_name">EU 3</div>
+            <div class="servers_map"></div>
+            <div class="servers_players"></div>
+            <div class="servers_status">Online</div>
+          </li>
+          <li class="servers__server" data-server-index="3">
+            <div class="servers_name">EU 4</div>
+            <div class="servers_map"></div>
+            <div class="servers_players"></div>
+            <div class="servers_status">Online</div>
+          </li>
+        </ul>
+      </div>
     </section>
 
     <section>
