@@ -239,6 +239,7 @@ p {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  position: relative;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
@@ -249,13 +250,69 @@ p {
   color: #FFFFFF;
   background-color: #26203A;
   border-radius: 3px;
+  border-right: 8px solid transparent;
+  -webkit-transition: border-right 400ms ease;
+  transition: border-right 400ms ease;
+}
+
+.servers .servers__server.online {
+  border-right: 8px solid #27AE60;
+}
+
+.servers .servers__server.offline {
+  border-right: 8px solid #E65755;
 }
 
 .servers .servers__server + .servers__server {
   margin-top: 12px;
 }
 
-.servers .servers_name {
+.servers .servers__name {
   font-weight: bold;
+}
+
+.servers .servers__map::before,
+.servers .servers__players::before,
+.servers .servers__status::before {
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  width: 1.333em;
+  height: 1.333em;
+  -webkit-margin-end: 0.4em;
+          margin-inline-end: 0.4em;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+}
+
+.servers .servers__map::before {
+  background-image: url("../res/svg/map.svg");
+}
+
+.servers .servers__players::before {
+  background-image: url("../res/svg/players.svg");
+}
+
+.servers .online .servers__status::before {
+  background-image: url("../res/svg/online.svg");
+}
+
+.servers .offline .servers__status::before {
+  background-image: url("../res/svg/offline.svg");
+}
+
+.servers .servers__map,
+.servers .servers__players,
+.servers .servers__status {
+  opacity: 0;
+  -webkit-transition: opacity 800ms ease;
+  transition: opacity 800ms ease;
+}
+
+.servers .synced .servers__map,
+.servers .synced .servers__players,
+.servers .synced .servers__status {
+  opacity: 1;
 }
 /*# sourceMappingURL=style.css.map */

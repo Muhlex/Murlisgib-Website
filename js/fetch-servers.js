@@ -22,30 +22,20 @@ function chunk(array, size) {
 
 function parseResponse(responseText) {
   const responseArray = responseText.split('\n');
-  return chunk(responseArray, 3).map(serverArray => {
+  return chunk(responseArray, 4).map(serverArray => {
     return {
       timestamp: serverArray[0],
       players: serverArray[1],
-      map: serverArray[2],
+      maxplayers: serverArray[2],
+      map: serverArray[3],
     };
   });
 };
 
-function getReliableTimestamp() {
-  return new Promise((resolve, reject) => {
-    const http = new XMLHttpRequest();
-    http.open("GET", "http://worldtimeapi.org/api/timezone/Etc/UTC", true);
-    http.onreadystatechange = function () {
-      if (http.readyState == 4) {
-        if (http.status == 200) resolve(JSON.parse(http.responseText).unixtime);
-        else reject();
-      }
-    };
-    http.onerror = function () {
-      reject();
-    };
-    http.send();
-  });
+async function getReliableTimestamp() {
+  const response = await fetch("http://worldtimeapi.org/api/timezone/Etc/UTC");
+  const json = await response.json();
+  return json.unixtime;
 }
 
 function checkOnline(timestamp, currTimestamp, tolerance = 60 * 15) {
@@ -56,18 +46,28 @@ function updateHTML(clusterIndex, servers) {
   const clusterEl = document.querySelector(`[data-server-cluster-index='${clusterIndex}']`);
   const serverEls = clusterEl.querySelectorAll("[data-server-index]");
 
-  servers.forEach(({ online, players, map }, index) => {
-    serverEls[index].querySelector(".servers_map").innerHTML = map;
-    serverEls[index].querySelector(".servers_players").innerHTML = players;
-    serverEls[index].querySelector(".servers_status").innerHTML = online;
+  clusterEl.classList.add("synced");
+
+  servers.forEach(({ online, players, maxplayers, map }, index) => {
+    const mapEl = serverEls[index].querySelector(".servers__map");
+    const playersEl = serverEls[index].querySelector(".servers__players");
+    const statusEl = serverEls[index].querySelector(".servers__status");
+
+    mapEl.innerHTML = map;
+    playersEl.innerHTML = `${players}/${maxplayers}`;
+    statusEl.innerHTML = online ? "Online" : "Offline";
+    serverEls[index].classList.add(online ? "online" : "offline")
   });
 };
 
-(async () => {
+async function update() {
+  if (document.hidden) return;
+
   let currTimestamp;
   try {
     currTimestamp = await getReliableTimestamp();
   } catch (error) {
+    console.warn("Unable to fetch remote timestamp. Using local time.\n", error);
     currTimestamp = Math.floor(Date.now() / 1000);
   }
 
@@ -83,4 +83,7 @@ function updateHTML(clusterIndex, servers) {
     });
     ready(() => updateHTML(clusterIndex, servers));
   });
-})();
+};
+
+update();
+window.setInterval(update, 1000 * 60);

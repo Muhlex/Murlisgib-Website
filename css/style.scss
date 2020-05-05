@@ -3,6 +3,8 @@ $colPrimaryL1: #342D4A;
 $colSecondary: #F8F8F8;
 $colSecondaryL1: #FFFFFF;
 $colAccent: #6190FF;
+$colSuccess: #27AE60;
+$colError: #E65755;
 
 $contentWidth: 1200px;
 $borderRadius: 3px;
@@ -197,6 +199,7 @@ p {
 
   .servers__server {
     display: flex;
+    position: relative;
     justify-content: space-between;
     flex-wrap: wrap;
     padding: 18px 3%;
@@ -204,6 +207,16 @@ p {
     color: $colSecondaryL1;
     background-color: $colPrimary;
     border-radius: $borderRadius;
+
+    border-right: 8px solid transparent;
+    transition: border-right 400ms ease;
+
+    &.online {
+      border-right: 8px solid $colSuccess;
+    }
+    &.offline {
+      border-right: 8px solid $colError;
+    }
   }
 
   .servers__server + .servers__server {
@@ -214,7 +227,48 @@ p {
     //min-width: 160px;
   }
 
-  .servers_name {
+  .servers__name {
     font-weight: bold;
+  }
+
+  .servers__map::before,
+  .servers__players::before,
+  .servers__status::before {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    width: 1.333em;
+    height: 1.333em;
+    margin-inline-end: 0.4em;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+  }
+
+  .servers__map::before {
+    background-image: url('../res/svg/map.svg');
+  }
+  .servers__players::before {
+    background-image: url('../res/svg/players.svg');
+  }
+  .online .servers__status::before {
+    background-image: url('../res/svg/online.svg');
+  }
+  .offline .servers__status::before {
+    background-image: url('../res/svg/offline.svg');
+  }
+
+  // animate loading in
+  .servers__map,
+  .servers__players,
+  .servers__status {
+    opacity: 0;
+    transition: opacity 800ms ease;
+  }
+
+  .synced .servers__map,
+  .synced .servers__players,
+  .synced .servers__status {
+    opacity: 1;
   }
 }
