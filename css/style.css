@@ -21,11 +21,12 @@ body {
   background-color: #F8F8F8;
   font-family: 'Palanquin', 'Open Sans', Helvetica, sans-serif;
   color: #26203A;
+  font-size: 0.8rem;
 }
 
-@media screen and (max-width: 420px) {
+@media screen and (min-width: 560px) {
   body {
-    font-size: 0.8rem;
+    font-size: 1rem;
   }
 }
 
@@ -261,21 +262,39 @@ p {
   display: -ms-flexbox;
   display: flex;
   position: relative;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
   width: 100%;
   padding: 18px 3%;
   color: #FFFFFF;
   background-color: #26203A;
   border-radius: 3px;
+  white-space: nowrap;
   cursor: pointer;
   border-right: 8px solid transparent;
   -webkit-transition: border-right-color 400ms ease;
   transition: border-right-color 400ms ease;
+}
+
+@media screen and (min-width: 560px) {
+  .servers .servers__main {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    white-space: normal;
+  }
 }
 
 .servers .servers__main:hover, .servers .servers__main:focus {
@@ -302,7 +321,8 @@ p {
   vertical-align: middle;
   width: 1.333em;
   height: 1.333em;
-  margin-inline: 0.4em;
+  -webkit-margin-end: 0.4em;
+          margin-inline-end: 0.4em;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-position: center;
@@ -332,34 +352,41 @@ p {
   background-image: url("../res/svg/offline-w.svg");
 }
 
-.servers .servers__name {
-  -ms-flex-negative: 0;
-      flex-shrink: 0;
-  -webkit-margin-end: 1.5em;
-          margin-inline-end: 1.5em;
-  font-weight: bold;
-}
-
-.servers .servers__map {
-  -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
-}
-
-.servers .servers__players,
-.servers .servers__status {
-  -webkit-margin-start: 10%;
-          margin-inline-start: 10%;
-}
-
+.servers .servers__name,
 .servers .servers__map,
 .servers .servers__players,
 .servers .servers__status {
   overflow: hidden;
   text-overflow: ellipsis;
+  width: 100%;
+  text-align: left;
+}
+
+@media screen and (min-width: 560px) {
+  .servers .servers__name,
+  .servers .servers__map,
+  .servers .servers__players,
+  .servers .servers__status {
+    width: auto;
+    text-align: center;
+  }
+}
+
+.servers .servers__map,
+.servers .servers__players,
+.servers .servers__status {
+  margin-top: 0.5em;
   opacity: 0;
   -webkit-transition: opacity 800ms ease;
   transition: opacity 800ms ease;
+}
+
+@media screen and (min-width: 560px) {
+  .servers .servers__map,
+  .servers .servers__players,
+  .servers .servers__status {
+    margin-top: 0;
+  }
 }
 
 .servers .synced .servers__map,
@@ -368,10 +395,39 @@ p {
   opacity: 1;
 }
 
+.servers .servers__name {
+  -webkit-margin-end: 1.5em;
+          margin-inline-end: 1.5em;
+  font-weight: bold;
+}
+
+@media screen and (min-width: 560px) {
+  .servers .servers__name {
+    -ms-flex-negative: 0;
+        flex-shrink: 0;
+  }
+  .servers .servers__map {
+    -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1;
+  }
+  .servers .servers__players,
+  .servers .servers__status {
+    -webkit-margin-start: 10%;
+            margin-inline-start: 10%;
+  }
+  .servers .servers__map::before,
+  .servers .servers__players::before,
+  .servers .servers__status::before {
+    -webkit-margin-start: 0.4em;
+            margin-inline-start: 0.4em;
+  }
+}
+
 .servers .servers__expand {
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   background-color: #6190FF;
@@ -407,6 +463,18 @@ p {
 .servers .servers__ip {
   margin: 8px;
   border-radius: 3px;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+}
+
+@media screen and (min-width: 560px) {
+  .servers .servers__joinbtn,
+  .servers .servers__ip {
+    -webkit-box-flex: 0;
+        -ms-flex-positive: 0;
+            flex-grow: 0;
+  }
 }
 
 .servers .servers__joinbtn {
@@ -416,6 +484,7 @@ p {
   color: #6190FF;
   background-color: #FFFFFF;
   font-weight: bold;
+  text-align: center;
 }
 
 .servers .servers__ip {
@@ -429,11 +498,15 @@ p {
 }
 
 .servers .servers__iptext {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
   color: #FFFFFF;
   font-family: 'Fira Mono', 'Consolas', monospace;
   font-weight: bold;
   font-size: 0.666em;
-  padding: 0.5em 1.5em;
+  padding: 1em 2em;
+  text-align: center;
 }
 
 .servers .servers__ipbtn {

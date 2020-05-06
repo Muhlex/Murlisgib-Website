@@ -32,6 +32,10 @@ $borderRadius: 3px;
   }
 }
 
+@mixin query-tablet-portrait-up {
+  @media screen and (min-width: 560px) { @content; }
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Palanquin:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Fira+Mono:wght@700&display=swap');
 
@@ -53,8 +57,9 @@ body {
   font-family: 'Palanquin', 'Open Sans', Helvetica, sans-serif;
   color: $colPrimary;
 
-  @media screen and (max-width: 420px) {
-    font-size: 0.8rem;
+  font-size: 0.8rem;
+  @include query-tablet-portrait-up {
+    font-size: 1rem;
   }
 }
 
@@ -217,14 +222,22 @@ p {
   .servers__main {
     display: flex;
     position: relative;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     width: 100%;
     padding: 18px 3%;
     color: $colSecondaryL1;
     background-color: $colPrimary;
     border-radius: $borderRadius;
+    white-space: nowrap;
     cursor: pointer;
+
+    @include query-tablet-portrait-up {
+      flex-direction: row;
+      align-items: center;
+      white-space: normal;
+    }
 
     &:hover,
     &:focus {
@@ -253,7 +266,7 @@ p {
     vertical-align: middle;
     width: 1.333em;
     height: 1.333em;
-    margin-inline: 0.4em;
+    margin-inline-end: 0.4em;
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-position: center;
@@ -278,28 +291,31 @@ p {
     background-image: url('../res/svg/offline-w.svg');
   }
 
-  .servers__name {
-    flex-shrink: 0;
-    margin-inline-end: 1.5em;
-    font-weight: bold;
-  }
-
-  .servers__map {
-    flex-grow: 1;
-  }
-  .servers__players,
-  .servers__status {
-    margin-inline-start: 10%;
-  }
-
+  .servers__name,
   .servers__map,
   .servers__players,
   .servers__status {
     overflow: hidden;
     text-overflow: ellipsis;
+    width: 100%;
+    text-align: left;
+
+    @include query-tablet-portrait-up {
+      width: auto;
+      text-align: center;
+    }
+  }
+
+  .servers__map,
+  .servers__players,
+  .servers__status {
+    margin-top: 0.5em;
 
     opacity: 0;
     transition: opacity 800ms ease;
+    @include query-tablet-portrait-up {
+      margin-top: 0;
+    }
   }
 
   .synced .servers__map,
@@ -308,8 +324,32 @@ p {
     opacity: 1;
   }
 
+  .servers__name {
+    margin-inline-end: 1.5em;
+    font-weight: bold;
+  }
+
+  @include query-tablet-portrait-up {
+    .servers__name {
+      flex-shrink: 0;
+    }
+    .servers__map {
+      flex-grow: 1;
+    }
+    .servers__players,
+    .servers__status {
+      margin-inline-start: 10%;
+    }
+
+    .servers__map::before,
+    .servers__players::before,
+    .servers__status::before {
+      margin-inline-start: 0.4em;
+    }
+  }
+
   .servers__expand {
-    justify-content: space-between;
+    justify-content: flex-end;
     flex-wrap: wrap;
     background-color: $colAccent;
     border-radius: 0 0 $borderRadius $borderRadius;
@@ -343,6 +383,11 @@ p {
   .servers__ip {
     margin: 8px;
     border-radius: $borderRadius;
+
+    flex-grow: 1;
+    @include query-tablet-portrait-up {
+      flex-grow: 0;
+    }
   }
 
   .servers__joinbtn {
@@ -352,6 +397,7 @@ p {
     color: $colAccent;
     background-color: $colSecondaryL1;
     font-weight: bold;
+    text-align: center;
   }
 
   .servers__ip {
@@ -361,11 +407,13 @@ p {
   }
 
   .servers__iptext {
+    flex-grow: 1;
     color: $colSecondaryL1;
     font-family: 'Fira Mono', 'Consolas', monospace;
     font-weight: bold;
     font-size: 0.666em;
-    padding: 0.5em 1.5em;
+    padding: 1em 2em;
+    text-align: center;
   }
 
   .servers__ipbtn {
