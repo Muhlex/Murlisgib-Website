@@ -22,12 +22,12 @@ function chunk(array, size) {
 
 function parseResponse(responseText) {
   const responseArray = responseText.split('\n');
-  return chunk(responseArray, 4).map(serverArray => {
+  return chunk(responseArray, 4).map((serverArray, i) => {
     return {
       timestamp: serverArray[0],
       players: serverArray[1],
       maxplayers: serverArray[2],
-      map: serverArray[3],
+      map: i == 0 ? 'very_long_map_name_damn' : serverArray[3],
     };
   });
 };
@@ -61,8 +61,6 @@ function updateHTML(clusterIndex, servers) {
 };
 
 async function update() {
-  if (document.hidden) return;
-
   let currTimestamp;
   try {
     currTimestamp = await getReliableTimestamp();
@@ -86,4 +84,14 @@ async function update() {
 };
 
 update();
-window.setInterval(update, 1000 * 60);
+const updateEvery = 60;
+let updateInterval = window.setInterval(update, 1000 * updateEvery);
+
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === 'visible') {
+    update();
+    updateInterval = window.setInterval(update, 1000 * updateEvery);
+  } else {
+    window.clearInterval(updateInterval);
+  }
+});

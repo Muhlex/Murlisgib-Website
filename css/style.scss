@@ -33,6 +33,19 @@ $borderRadius: 3px;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Palanquin:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Mono:wght@700&display=swap');
+
+::selection {
+  background-color: $colAccent;
+  color: $colSecondaryL1;
+}
+
+.precache {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
 
 body {
   min-height: 100vh;
@@ -198,37 +211,38 @@ p {
   margin-top: 2em;
 
   .servers__server {
+    font-size: (24 / 16 * 1em);
+  }
+
+  .servers__main {
     display: flex;
     position: relative;
     justify-content: space-between;
-    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
     padding: 18px 3%;
-    font-size: (24 / 16 * 1em);
     color: $colSecondaryL1;
     background-color: $colPrimary;
     border-radius: $borderRadius;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      background-color: $colPrimaryL1;
+    }
 
     border-right: 8px solid transparent;
-    transition: border-right 400ms ease;
-
-    &.online {
-      border-right: 8px solid $colSuccess;
-    }
-    &.offline {
-      border-right: 8px solid $colError;
-    }
+    transition: border-right-color 400ms ease;
+  }
+  .online .servers__main {
+    border-right-color: $colSuccess;
+  }
+  .offline .servers__main {
+    border-right-color: $colError;
   }
 
   .servers__server + .servers__server {
     margin-top: 12px;
-  }
-
-  .servers__server > * {
-    //min-width: 160px;
-  }
-
-  .servers__name {
-    font-weight: bold;
   }
 
   .servers__map::before,
@@ -239,7 +253,7 @@ p {
     vertical-align: middle;
     width: 1.333em;
     height: 1.333em;
-    margin-inline-end: 0.4em;
+    margin-inline: 0.4em;
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-position: center;
@@ -257,11 +271,33 @@ p {
   .offline .servers__status::before {
     background-image: url('../res/svg/offline.svg');
   }
+  .expanded.online .servers__status::before {
+    background-image: url('../res/svg/online-w.svg');
+  }
+  .expanded.offline .servers__status::before {
+    background-image: url('../res/svg/offline-w.svg');
+  }
 
-  // animate loading in
+  .servers__name {
+    flex-shrink: 0;
+    margin-inline-end: 1.5em;
+    font-weight: bold;
+  }
+
+  .servers__map {
+    flex-grow: 1;
+  }
+  .servers__players,
+  .servers__status {
+    margin-inline-start: 10%;
+  }
+
   .servers__map,
   .servers__players,
   .servers__status {
+    overflow: hidden;
+    text-overflow: ellipsis;
+
     opacity: 0;
     transition: opacity 800ms ease;
   }
@@ -270,5 +306,92 @@ p {
   .synced .servers__players,
   .synced .servers__status {
     opacity: 1;
+  }
+
+  .servers__expand {
+    justify-content: space-between;
+    flex-wrap: wrap;
+    background-color: $colAccent;
+    border-radius: 0 0 $borderRadius $borderRadius;
+
+    display: none; //flex
+  }
+
+  .expanded {
+    .servers__main {
+      background-color: $colAccent;
+      border-radius: $borderRadius $borderRadius 0 0;
+      border-right-width: 0;
+      padding-right: calc(3% + 8px);
+    }
+
+    .servers__expand {
+      display: flex;
+    }
+  }
+
+  .servers__joinbtn,
+  .servers__ipbtn {
+    cursor: pointer;
+    &:hover,
+    &:focus {
+      background-color: $colSecondary;
+    }
+  }
+
+  .servers__joinbtn,
+  .servers__ip {
+    margin: 8px;
+    border-radius: $borderRadius;
+  }
+
+  .servers__joinbtn {
+    display: block;
+    padding: 0.5em 1.5em;
+    text-decoration: none;
+    color: $colAccent;
+    background-color: $colSecondaryL1;
+    font-weight: bold;
+  }
+
+  .servers__ip {
+    display: flex;
+    align-items: center;
+    background-color: $colPrimary;
+  }
+
+  .servers__iptext {
+    color: $colSecondaryL1;
+    font-family: 'Fira Mono', 'Consolas', monospace;
+    font-weight: bold;
+    font-size: 0.666em;
+    padding: 0.5em 1.5em;
+  }
+
+  .servers__ipbtn {
+    position: relative;
+    display: block;
+    width: 2em;
+    height: 100%;
+    background-color: $colSecondaryL1;
+    border-radius: 0 $borderRadius $borderRadius 0;
+
+    &::before {
+      content: '';
+      position: absolute;
+      display: block;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-image: url('../res/svg/copy.svg');
+      background-repeat: no-repeat;
+      background-size: 1em 1em;
+      background-position: center;
+    }
+  }
+
+  .servers__ipbtn.clicked::before {
+    background-image: url('../res/svg/copy-success.svg');
   }
 }

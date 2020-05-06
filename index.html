@@ -8,9 +8,17 @@
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/style.css">
   <script src="./js/fetch-servers.js" defer></script>
+  <script src="./js/interactions.js" defer></script>
 </head>
 
 <body>
+
+  <div class="precache" aria-hidden="true">
+    <img src="./res/svg/online-w.svg">
+    <img src="./res/svg/offline-w.svg">
+    <img src="./res/svg/copy.svg">
+    <img src="./res/svg/copy-success.svg">
+  </div>
 
   <header>
     <div class="hero container">
@@ -41,28 +49,64 @@
       <div class="servers">
         <ul class="servers__cluster" data-server-cluster-index="0">
           <li class="servers__server" data-server-index="0">
-            <div class="servers__name">EU 1</div>
-            <div class="servers__map"></div>
-            <div class="servers__players"></div>
-            <div class="servers__status"></div>
+            <button class="servers__main">
+              <div class="servers__name">EU 1</div>
+              <div class="servers__map"></div>
+              <div class="servers__players"></div>
+              <div class="servers__status"></div>
+            </button>
+            <div class="servers__expand">
+              <a class="servers__joinbtn" href="steam://connect/play.gib.murl.is:27015">Join Server</a>
+              <div class="servers__ip">
+                <div class="servers__iptext">connect play.gib.murl.is:27015</div>
+                <button class="servers__ipbtn" aria-label="Copy"></button>
+              </div>
+            </div>
           </li>
           <li class="servers__server" data-server-index="1">
-            <div class="servers__name">EU 2</div>
-            <div class="servers__map"></div>
-            <div class="servers__players"></div>
-            <div class="servers__status"></div>
+            <button class="servers__main">
+              <div class="servers__name">EU 2</div>
+              <div class="servers__map"></div>
+              <div class="servers__players"></div>
+              <div class="servers__status"></div>
+            </button>
+            <div class="servers__expand">
+              <a class="servers__joinbtn" href="steam://connect/play.gib.murl.is:27025">Join Server</a>
+              <div class="servers__ip">
+                <div class="servers__iptext">connect play.gib.murl.is:27025</div>
+                <button class="servers__ipbtn" aria-label="Copy"></button>
+              </div>
+            </div>
           </li>
           <li class="servers__server" data-server-index="2">
-            <div class="servers__name">EU 3</div>
-            <div class="servers__map"></div>
-            <div class="servers__players"></div>
-            <div class="servers__status"></div>
+            <button class="servers__main">
+              <div class="servers__name">EU 3</div>
+              <div class="servers__map"></div>
+              <div class="servers__players"></div>
+              <div class="servers__status"></div>
+            </button>
+            <div class="servers__expand">
+              <a class="servers__joinbtn" href="steam://connect/play.gib.murl.is:27035">Join Server</a>
+              <div class="servers__ip">
+                <div class="servers__iptext">connect play.gib.murl.is:27035</div>
+                <button class="servers__ipbtn" aria-label="Copy"></button>
+              </div>
+            </div>
           </li>
           <li class="servers__server" data-server-index="3">
-            <div class="servers__name">EU 4</div>
-            <div class="servers__map"></div>
-            <div class="servers__players"></div>
-            <div class="servers__status"></div>
+            <button class="servers__main">
+              <div class="servers__name">EU 4</div>
+              <div class="servers__map"></div>
+              <div class="servers__players"></div>
+              <div class="servers__status"></div>
+            </button>
+            <div class="servers__expand">
+              <a class="servers__joinbtn" href="steam://connect/play.gib.murl.is:27045">Join Server</a>
+              <div class="servers__ip">
+                <div class="servers__iptext">connect play.gib.murl.is:27045</div>
+                <button class="servers__ipbtn" aria-label="Copy"></button>
+              </div>
+            </div>
           </li>
         </ul>
       </div>
