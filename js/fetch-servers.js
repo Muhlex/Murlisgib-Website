@@ -20,14 +20,20 @@ function chunk(array, size) {
   return result;
 }
 
+function titleCase(str) {
+  return str.toLowerCase().split(' ').map(function (word) {
+    return (word[0].toUpperCase() + word.slice(1));
+  }).join(' ');
+}
+
 function parseResponse(responseText) {
   const responseArray = responseText.split('\n');
-  return chunk(responseArray, 4).map((serverArray, i) => {
+  return chunk(responseArray, 4).map(serverArray => {
     return {
       timestamp: serverArray[0],
       players: serverArray[1],
       maxplayers: serverArray[2],
-      map: i == 0 ? 'very_long_map_name_damn' : serverArray[3],
+      map: serverArray[3],
     };
   });
 };
@@ -42,6 +48,12 @@ function checkOnline(timestamp, currTimestamp, tolerance = 60 * 15) {
   return (timestamp < currTimestamp + tolerance && timestamp > currTimestamp - tolerance);
 }
 
+function parseMapName(mapname, prefix) {
+  if (mapname.toLowerCase().startsWith(prefix.toLowerCase())) mapname = mapname.slice(prefix.length);
+
+  return titleCase(mapname.replace(/_/g, ' '));
+}
+
 function updateHTML(clusterIndex, servers) {
   const clusterEl = document.querySelector(`[data-server-cluster-index='${clusterIndex}']`);
   const serverEls = clusterEl.querySelectorAll("[data-server-index]");
@@ -53,7 +65,7 @@ function updateHTML(clusterIndex, servers) {
     const playersEl = serverEls[index].querySelector(".servers__players");
     const statusEl = serverEls[index].querySelector(".servers__status");
 
-    mapEl.innerHTML = map;
+    mapEl.innerHTML = parseMapName(map, "mg_");
     playersEl.innerHTML = `${players}/${maxplayers}`;
     statusEl.innerHTML = online ? "Online" : "Offline";
     serverEls[index].classList.add(online ? "online" : "offline")

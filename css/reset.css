@@ -30,6 +30,7 @@ button {
   color: inherit;
   background: none;
   text-decoration: none;
+  font-family: inherit;
   -webkit-appearance: none;
   -moz-appearance: none;
 }

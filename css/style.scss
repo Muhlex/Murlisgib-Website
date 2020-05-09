@@ -6,6 +6,9 @@ $colAccent: #6190FF;
 $colSuccess: #27AE60;
 $colError: #E65755;
 
+$fontMain: 'Palanquin', 'Open Sans', Helvetica, sans-serif;
+$fontMonospace: 'Fira Mono', 'Consolas', monospace;
+
 $contentWidth: 1200px;
 $borderRadius: 3px;
 
@@ -54,10 +57,10 @@ $borderRadius: 3px;
 body {
   min-height: 100vh;
   background-color: $colSecondary;
-  font-family: 'Palanquin', 'Open Sans', Helvetica, sans-serif;
+  font-family: $fontMain;
   color: $colPrimary;
 
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   @include query-tablet-portrait-up {
     font-size: 1rem;
   }
@@ -85,8 +88,38 @@ h2 {
   margin-top: 1.5em;
 }
 
+h3 {
+  font-weight: normal;
+  font-size: (48 / 16 * 1em);
+  margin-top: 1.5em;
+}
+
+h2 + h3 {
+  margin-top: 0.5em;
+}
+
+h4 {
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: (24 / 16 * 1em);
+  margin-top: 1em;
+}
+
 p {
-  line-height: 1.4;
+  line-height: 1.5;
+}
+
+p + p {
+  margin-top: 1em;
+}
+
+kbd {
+  color: $colSecondaryL1;
+  background-color: $colPrimaryL1;
+  border-radius: 0.2em;
+  padding: 0.2em 0.3em;
+  font-family: $fontMonospace;
+  font-size: (12 / 16 * 1em);
 }
 
 .hero {
@@ -213,7 +246,7 @@ p {
 }
 
 .servers {
-  margin-top: 2em;
+  margin-top: 2rem;
 
   .servers__server {
     font-size: (24 / 16 * 1em);
@@ -226,7 +259,7 @@ p {
     justify-content: space-between;
     align-items: flex-start;
     width: 100%;
-    padding: 18px 3%;
+    padding: 10px 3%;
     color: $colSecondaryL1;
     background-color: $colPrimary;
     border-radius: $borderRadius;
@@ -409,7 +442,7 @@ p {
   .servers__iptext {
     flex-grow: 1;
     color: $colSecondaryL1;
-    font-family: 'Fira Mono', 'Consolas', monospace;
+    font-family: $fontMonospace;
     font-weight: bold;
     font-size: 0.666em;
     padding: 1em 2em;
@@ -441,5 +474,49 @@ p {
 
   .servers__ipbtn.clicked::before {
     background-image: url('../res/svg/copy-success.svg');
+  }
+}
+
+.txt-img-headline {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.txt-img {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+  margin-bottom: 6em;
+
+  .txt-img__img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-bottom: 1rem;
+  }
+
+  .txt-img__text-group {
+    p { font-size: (24 / 16 * 1em); }
+  }
+
+  @include query-tablet-portrait-up() {
+    flex-direction: row;
+
+    .txt-img__img {
+      flex: 0 0 50%;
+      padding-right: 1rem;
+    }
+    .txt-img__text-group {
+      flex: 0 0 50%;
+      padding-left: 1rem;
+      margin-top: -0.6em; // magic number to align with video
+    }
+
+    &.txt-img--reverse {
+      flex-direction: row-reverse;
+
+      .txt-img__img { padding-right: 0; padding-left: 1rem; }
+      .txt-img__text-group { padding-left: 0; padding-right: 1rem; }
+    }
   }
 }
