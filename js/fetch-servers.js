@@ -39,7 +39,7 @@ function parseResponse(responseText) {
 };
 
 async function getReliableTimestamp() {
-  const response = await fetch("http://worldtimeapi.org/api/timezone/Etc/UTC");
+  const response = await fetch("https://worldtimeapi.org/api/timezone/Etc/UTC");
   const json = await response.json();
   return json.unixtime;
 }
