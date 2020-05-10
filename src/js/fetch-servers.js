@@ -1,5 +1,5 @@
 const clusters = [
-  { url: "http://play.gib.murl.is/serverinfo" }
+  { url: "https://cors-anywhere.herokuapp.com/http://play.gib.murl.is/serverinfo" }
 ];
 
 function ready(fun) {
