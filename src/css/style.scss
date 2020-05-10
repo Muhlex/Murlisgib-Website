@@ -357,6 +357,21 @@ kbd {
     opacity: 1;
   }
 
+  .servers__loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    opacity: 0.65;
+    transition: opacity 800ms ease,
+                visibility 0ms linear 800ms;
+  }
+  .synced .servers__loading {
+    opacity: 0;
+    visibility: hidden;
+  }
+
   .servers__name {
     margin-inline-end: 1.5em;
     font-weight: bold;
