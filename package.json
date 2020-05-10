@@ -1,0 +1,40 @@
+{
+  "name": "murlisgib-website",
+  "version": "1.0.0",
+  "description": "Website for the custom CS:GO gamemode Murlisgib",
+  "main": "index.html",
+  "scripts": {
+    "dev": "parcel src/index.html",
+    "build": "parcel build src/index.html --public-url ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Muhlex/Murlisgib-Website.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Muhlex/Murlisgib-Website/issues"
+  },
+  "homepage": "https://github.com/Muhlex/Murlisgib-Website#readme",
+  "devDependencies": {
+    "autoprefixer": "^9.7.6",
+    "parcel-bundler": "^1.12.4",
+    "postcss-modules": "^2.0.0",
+    "sass": "^1.26.5"
+  },
+  "dependencies": {},
+  "browserslist": [
+    "> 0.5%",
+    "last 2 versions",
+    "Firefox ESR",
+    "not dead",
+    "not IE 11",
+    "not ie_mob > 0"
+  ],
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  }
+}

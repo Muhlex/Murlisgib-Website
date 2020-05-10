@@ -60,13 +60,26 @@ function updateHTML(clusterIndex, servers) {
 
   clusterEl.classList.add("synced");
 
+  if (servers.length === 0) {
+    for (let i = 0; i < serverEls.length; i++) {
+      servers[i] = {
+        online: false,
+      };
+    }
+  }
+
   servers.forEach(({ online, players, maxplayers, map }, index) => {
     const mapEl = serverEls[index].querySelector(".servers__map");
     const playersEl = serverEls[index].querySelector(".servers__players");
     const statusEl = serverEls[index].querySelector(".servers__status");
 
-    mapEl.innerHTML = parseMapName(map, "mg_");
-    playersEl.innerHTML = `${players}/${maxplayers}`;
+    if (!online) {
+      map = null;
+      players = null;
+    }
+
+    mapEl.innerHTML = map ? parseMapName(map, "mg_") : "&ndash;";
+    playersEl.innerHTML = players ? `${players}/${maxplayers}` : '&ndash;';
     statusEl.innerHTML = online ? "Online" : "Offline";
     serverEls[index].classList.add(online ? "online" : "offline")
   });
@@ -82,9 +95,16 @@ async function update() {
   }
 
   clusters.forEach(async ({ url }, clusterIndex) => {
-    const response = await fetch(url);
-    const rawData = await response.text();
-    let servers = parseResponse(rawData);
+    let servers = [];
+
+    try {
+      const response = await fetch(url);
+      const rawData = await response.text();
+      servers = parseResponse(rawData);
+    } catch (error) {
+      console.warn("Could not fetch data for cluster", clusterIndex);
+      console.error(error);
+    }
     servers = servers.map(server => {
       return {
         online: checkOnline(server.timestamp, currTimestamp),
