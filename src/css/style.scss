@@ -136,6 +136,10 @@ kbd {
   font-size: (12 / 16 * 1em);
 }
 
+.remark {
+  text-decoration: underline var(--colPrimary) dotted 2px;
+}
+
 .hero {
   display: flex;
   justify-content: center;
