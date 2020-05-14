@@ -12,7 +12,7 @@ $borderRadius: 3px;
   --colAccent: #6190FF;
   --colSuccess: #27AE60;
   --colError: #E65755;
-  --colText: var(----colPrimary);
+  --colText: var(--colPrimary);
 
   @media (prefers-color-scheme: dark) {
     --colPrimary: #F8F8F8;
@@ -137,7 +137,9 @@ kbd {
 }
 
 .remark {
-  text-decoration: underline var(--colPrimary) dotted 2px;
+  text-decoration: underline var(--colText) dotted;
+  text-decoration-thickness: 0.1em;
+  cursor: help;
 }
 
 .hero {
@@ -537,6 +539,12 @@ kbd {
     width: 100%;
     height: auto;
     margin-bottom: 1rem;
+
+    video {
+      display: block;
+      width: 100%;
+      border-radius: $borderRadius;
+    }
   }
 
   .txt-img__text-group {
@@ -549,7 +557,6 @@ kbd {
     .txt-img__img {
       flex: 1 0 0;
       margin-right: 1rem;
-      border-radius: $borderRadius;
     }
     .txt-img__text-group {
       flex: 1 0 0;

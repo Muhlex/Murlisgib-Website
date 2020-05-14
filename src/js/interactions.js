@@ -1,9 +1,10 @@
-function selectEl(element) {
-  const select = window.getSelection();
+function highlightEl(element) {
+  const selection = window.getSelection();
   const range = document.createRange();
 
   range.selectNodeContents(element);
-  select.addRange(range);
+  selection.removeAllRanges();
+  selection.addRange(range);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -29,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // select ip on click
     ip.addEventListener("click", event => {
-      selectEl(iptext);
+      highlightEl(iptext);
 
       if (event.target !== ipbtn) return;
       // copy ip on button click
