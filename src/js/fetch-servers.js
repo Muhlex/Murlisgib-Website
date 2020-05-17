@@ -81,7 +81,8 @@ function updateHTML(clusterIndex, servers) {
     mapEl.innerHTML = map ? parseMapName(map, "mg_") : "&ndash;";
     playersEl.innerHTML = players ? `${players}/${maxplayers}` : '&ndash;';
     statusEl.innerHTML = online ? "Online" : "Offline";
-    serverEls[index].classList.add(online ? "online" : "offline")
+    serverEls[index].classList.remove(online ? "offline" : "online");
+    serverEls[index].classList.add(online ? "online" : "offline");
   });
 };
 
