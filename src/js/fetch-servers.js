@@ -1,5 +1,5 @@
 const clusters = [
-  { url: "https://play.gib.murl.is/serverinfo" }
+  { url: "https://eu.gib.murl.is/serverinfo.txt" }
 ];
 
 function ready(fun) {
@@ -20,38 +20,39 @@ function chunk(array, size) {
   return result;
 }
 
+function getResponseValueByKey(responseLines, key) {
+  const regexp = new RegExp(`${key} *: (.*)`);
+  const matchedLine = responseLines.find(line => line.match(regexp));
+  return matchedLine && matchedLine.match(regexp)[1];
+}
+
+function parseResponse(responseText) {
+  const responseLines = responseText.split('\n');
+  return chunk(responseLines, 6).map(serverResponseLines => {
+    const playersString = getResponseValueByKey(serverResponseLines, 'players');
+    return {
+      port: Number(getResponseValueByKey(serverResponseLines, 'port')),
+      online: Boolean(Number(getResponseValueByKey(serverResponseLines, 'online'))),
+      hostname: getResponseValueByKey(serverResponseLines, 'hostname'),
+      map: getResponseValueByKey(serverResponseLines, 'map'),
+      players: playersString && Number(playersString.match(/(\d+) humans/)[1]),
+      bots: playersString && Number(playersString.match(/(\d+) bots/)[1]),
+      maxplayers: playersString && Number(playersString.match(/(\d+)\/\d+ max/)[1]),
+    };
+  });
+};
+
 function titleCase(str) {
   return str.toLowerCase().split(' ').map(function (word) {
     return (word[0].toUpperCase() + word.slice(1));
   }).join(' ');
 }
 
-function parseResponse(responseText) {
-  const responseArray = responseText.split('\n');
-  return chunk(responseArray, 4).map(serverArray => {
-    return {
-      timestamp: serverArray[0],
-      players: serverArray[1],
-      maxplayers: serverArray[2],
-      map: serverArray[3],
-    };
-  });
-};
-
-async function getReliableTimestamp() {
-  const response = await fetch("https://worldtimeapi.org/api/timezone/Etc/UTC");
-  const json = await response.json();
-  return json.unixtime;
-}
-
-function checkOnline(timestamp, currTimestamp, tolerance = 60 * 15) {
-  return (timestamp < currTimestamp + tolerance && timestamp > currTimestamp - tolerance);
-}
-
-function parseMapName(mapname, prefix) {
-  if (mapname.toLowerCase().startsWith(prefix.toLowerCase())) mapname = mapname.slice(prefix.length);
-
-  return titleCase(mapname.replace(/_/g, ' '));
+function getMapDisplayName(map, prefix = '') {
+  const filenameMatch = map.match(/.*\/(.*)/);
+  let filename = filenameMatch ? filenameMatch[1] : map;
+  if (filename.toLowerCase().startsWith(prefix.toLowerCase())) filename = filename.slice(prefix.length);
+  return titleCase(filename.replace(/_/g, ' '));
 }
 
 function updateHTML(clusterIndex, servers) {
@@ -60,26 +61,13 @@ function updateHTML(clusterIndex, servers) {
 
   clusterEl.classList.add("synced");
 
-  if (servers.length === 0) {
-    for (let i = 0; i < serverEls.length; i++) {
-      servers[i] = {
-        online: false,
-      };
-    }
-  }
-
   servers.forEach(({ online, players, maxplayers, map }, index) => {
     const mapEl = serverEls[index].querySelector(".servers__map");
     const playersEl = serverEls[index].querySelector(".servers__players");
     const statusEl = serverEls[index].querySelector(".servers__status");
 
-    if (!online) {
-      map = null;
-      players = null;
-    }
-
-    mapEl.innerHTML = map ? parseMapName(map, "mg_") : "&ndash;";
-    playersEl.innerHTML = players ? `${players}/${maxplayers}` : '&ndash;';
+    mapEl.innerHTML = map ? getMapDisplayName(map, 'mg_') : "&ndash;";
+    playersEl.innerHTML = !isNaN(players) ? `${players}/${maxplayers || '?'}` : '&ndash;';
     statusEl.innerHTML = online ? "Online" : "Offline";
     serverEls[index].classList.remove(online ? "offline" : "online");
     serverEls[index].classList.add(online ? "online" : "offline");
@@ -87,14 +75,6 @@ function updateHTML(clusterIndex, servers) {
 };
 
 async function update() {
-  let currTimestamp;
-  try {
-    currTimestamp = await getReliableTimestamp();
-  } catch (error) {
-    console.warn("Unable to fetch remote timestamp. Using local time.\n", error);
-    currTimestamp = Math.floor(Date.now() / 1000);
-  }
-
   clusters.forEach(async ({ url }, clusterIndex) => {
     let servers = [];
 
@@ -103,15 +83,9 @@ async function update() {
       const rawData = await response.text();
       servers = parseResponse(rawData);
     } catch (error) {
-      console.warn("Could not fetch data for cluster", clusterIndex);
+      console.warn("Could not fetch data for cluster", clusterIndex, "at", url);
       console.error(error);
     }
-    servers = servers.map(server => {
-      return {
-        online: checkOnline(server.timestamp, currTimestamp),
-        ...server,
-      };
-    });
     ready(() => updateHTML(clusterIndex, servers));
   });
 };
